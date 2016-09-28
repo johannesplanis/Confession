@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        tools:text="Anonymous"
+        android:id="@+id/confessionSimpleAuthorTv"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confessionSimpleDateTv"
+        tools:text="18.03.2016"
+        />
+
+    <TextView
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/confessionSimpleAuthorTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/confessionSimpleContentTv"
+        android:text="Ostatnio byłyśmy z koleżanką na lodach.."
+        android:maxLines="3"
+        android:layout_marginBottom="12dp"
+        />
+
+    <TextView
+        android:layout_below="@id/confessionSimpleContentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confessionsLikesLabelTv"
+        android:text="Polubienia: "
+
+        />
+
+    <TextView
+        android:layout_below="@id/confessionSimpleContentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/confessionsLikesNumberTv"
+        android:layout_toRightOf="@id/confessionsLikesLabelTv"
+        tools:text="12"
+        />
+
+    <TextView
+        android:layout_below="@id/confessionSimpleContentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:id="@+id/confessionsCommentsNumberTv"
+        tools:text="42"
+        />
+
+    <TextView
+        android:layout_below="@id/confessionSimpleContentTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/confessionsCommentsNumberTv"
+        android:id="@+id/confessionsCommentsLabelTv"
+        android:text="Komentarze: "
+        />
+
+
+</RelativeLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "233789042553",
+    "firebase_url": "https://confessions-b6ab9.firebaseio.com",
+    "project_id": "confessions-b6ab9",
+    "storage_bucket": "confessions-b6ab9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233789042553:android:5d2e93eca2d4a14b",
+        "android_client_info": {
+          "package_name": "co.planis.confession"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "233789042553-uij55s4iop61s81m886dur1bp2j8j954.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.planis.confession",
+            "certificate_hash": "932274FF2933A89F7C30F804AEF7B132A168C357"
+          }
+        },
+        {
+          "client_id": "233789042553-k2i9g6sndht702dcotgcua8v88a67tfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJMOwWN5o-w8TxPrB0QyqKATEdf-xCRCA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "233789042553-k2i9g6sndht702dcotgcua8v88a67tfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
