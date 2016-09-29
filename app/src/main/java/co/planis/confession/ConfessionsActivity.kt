@@ -1,8 +1,7 @@
 package co.planis.confession
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,11 +11,9 @@ import co.planis.confession.model.UserModel
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
 import kotlinx.android.synthetic.main.activity_confessions.*
 import kotlinx.android.synthetic.main.row_confessions.view.*
 import java.util.*
-
 import org.jetbrains.anko.startActivity
 
 class ConfessionsActivity : AppCompatActivity() {
@@ -27,7 +24,7 @@ class ConfessionsActivity : AppCompatActivity() {
     private var confessionsReference : DatabaseReference? = null
 
 
-    private var adapter : FirebaseRecyclerAdapter<ConfessionModel,ViewHolder>? = null
+    private var adapter : FirebaseRecyclerAdapter<ConfessionModel,AViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +32,8 @@ class ConfessionsActivity : AppCompatActivity() {
 
         initFirebase()
         loadData()
+
+        confessionListAddFab.setOnClickListener { startActivity<AddConfessionActivity>() }
     }
 
     private fun initFirebase() {
@@ -46,16 +45,15 @@ class ConfessionsActivity : AppCompatActivity() {
 
     private fun loadData() {
 
-        val confessionsReference = databaseReference?.child(CONFESSIONS)
+        confessionsReference = databaseReference?.child(CONFESSIONS)
 
         layoutManager = LinearLayoutManager(this)
-        layoutManager?.stackFromEnd = true
 
 
 
-        adapter = object : FirebaseRecyclerAdapter<ConfessionModel,ViewHolder>(ConfessionModel::class.java,
-                R.layout.row_confessions,ViewHolder::class.java,confessionsReference){
-            override fun populateViewHolder(viewHolder: ViewHolder, model: ConfessionModel, position: Int) {
+        adapter = object : FirebaseRecyclerAdapter<ConfessionModel,AViewHolder>(ConfessionModel::class.java,
+                R.layout.row_confessions,AViewHolder::class.java,confessionsReference){
+            override fun populateViewHolder(viewHolder: AViewHolder, model: ConfessionModel, position: Int) {
                 viewHolder.bindConfessions(model)
             }
         }
@@ -86,7 +84,7 @@ class ConfessionsActivity : AppCompatActivity() {
 
 
 
-    class ViewHolder(view: View, val itemClick: (ConfessionModel) -> Unit) : RecyclerView.ViewHolder(view) {
+    class AViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindConfessions(confessions: ConfessionModel) {
             with(confessions) {
@@ -96,7 +94,7 @@ class ConfessionsActivity : AppCompatActivity() {
                 itemView.confessionSimpleDateTv.text = confessions.date
                 itemView.confessionsCommentsNumberTv.text = confessions.comments.size.toString()
                 itemView.confessionsLikesNumberTv.text = confessions.likes.toString()
-                itemView.setOnClickListener { itemClick(this) }
+                itemView.setOnClickListener {  }
             }
         }
     }

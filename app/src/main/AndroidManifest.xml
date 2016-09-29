@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddConfessionActivity" />
-        <activity android:name=".ConfessionDetailsActivity"></activity>
+        <activity android:name=".ConfessionDetailsActivity"/>
     </application>
 
 </manifest>
