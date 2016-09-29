@@ -44,12 +44,15 @@ class AddConfessionActivity : AppCompatActivity() {
     private fun publishConfession() {
 
         val confessionText = addConfessionPreviewEt.text.toString()
+        val confessionNick = addConfessionAuthorEt.text.toString()
 
         if (confessionText.equals(""))
             toast("Napisz coś!")
+        else if (confessionNick.equals(""))
+            toast("Uzupełnij swój nick")
         else {
 
-            val confession: ConfessionModel = ConfessionModel(text = confessionText, op = UserModel(name = "Johannes"), date = Date().toString())
+            val confession: ConfessionModel = ConfessionModel(text = confessionText, op = UserModel(name = confessionNick), date = Date().toString())
             val confessionsReference = FirebaseDatabase.getInstance().reference?.child(CONFESSIONS)
             confessionsReference?.push()?.setValue(confession)?.addOnCompleteListener { finalizeCreator() }
         }

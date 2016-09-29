@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.RecyclerView.OnItemTouchListener
+import android.view.MotionEvent
 import android.view.View
+import android.widget.AdapterView
 import co.planis.confession.model.CommentModel
 import co.planis.confession.model.ConfessionModel
 import co.planis.confession.model.UserModel
@@ -24,7 +27,7 @@ class ConfessionsActivity : AppCompatActivity() {
     private var confessionsReference : DatabaseReference? = null
 
 
-    private var adapter : FirebaseRecyclerAdapter<ConfessionModel,AViewHolder>? = null
+    private var adapter : FirebaseRecyclerAdapter<ConfessionModel,ViewHolder>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +54,9 @@ class ConfessionsActivity : AppCompatActivity() {
 
 
 
-        adapter = object : FirebaseRecyclerAdapter<ConfessionModel,AViewHolder>(ConfessionModel::class.java,
-                R.layout.row_confessions,AViewHolder::class.java,confessionsReference){
-            override fun populateViewHolder(viewHolder: AViewHolder, model: ConfessionModel, position: Int) {
+        adapter = object : FirebaseRecyclerAdapter<ConfessionModel,ViewHolder>(ConfessionModel::class.java,
+                R.layout.row_confessions,ViewHolder::class.java,confessionsReference){
+            override fun populateViewHolder(viewHolder: ViewHolder, model: ConfessionModel, position: Int) {
                 viewHolder.bindConfessions(model)
             }
         }
@@ -84,7 +87,10 @@ class ConfessionsActivity : AppCompatActivity() {
 
 
 
-    class AViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindConfessions(confessions: ConfessionModel) {
             with(confessions) {
@@ -94,29 +100,12 @@ class ConfessionsActivity : AppCompatActivity() {
                 itemView.confessionSimpleDateTv.text = confessions.date
                 itemView.confessionsCommentsNumberTv.text = confessions.comments.size.toString()
                 itemView.confessionsLikesNumberTv.text = confessions.likes.toString()
-                itemView.setOnClickListener {  }
+
             }
         }
     }
 
 
-
-    private fun getData() : List<ConfessionModel>{
-        var data = ArrayList<ConfessionModel>()
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-        data.add(ConfessionModel(1,"Nie uwierzycie, co mi się przydarzyło",5,ArrayList<CommentModel>(), UserModel(123,"Johannes",""),"12.12.2016"))
-
-
-        return data
-    }
 
 }
 
