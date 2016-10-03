@@ -27,6 +27,9 @@ class AddConfessionActivity : AppCompatActivity() {
 
     var vibrator: Vibrator? = null
 
+    var isSent: Boolean = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_confession)
@@ -98,10 +101,12 @@ class AddConfessionActivity : AppCompatActivity() {
         } else if (confessionNick.equals("")) {
             vibrator?.vibrate(200)
             toast("Uzupełnij swój nick")
-        } else {
+        } else if(!isSent){
 
-            val confession: ConfessionModel = ConfessionModel(text = confessionText, op = UserModel(name = confessionNick), date = Date().toString())
+            isSent = true
+            val confession: ConfessionModel = ConfessionModel(text = confessionText, op = UserModel(name = confessionNick), date = Date())
             val confessionsReference = FirebaseDatabase.getInstance().reference?.child(CONFESSIONS)
+            toast("Wysyłam")
             confessionsReference?.push()?.setValue(confession)?.addOnCompleteListener { finalizeCreator() }
         }
     }

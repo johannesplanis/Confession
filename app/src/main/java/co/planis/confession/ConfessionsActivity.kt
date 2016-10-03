@@ -12,6 +12,8 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_confessions.*
 import kotlinx.android.synthetic.main.row_confessions.view.*
 import org.jetbrains.anko.startActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ConfessionsActivity : AppCompatActivity() {
 
@@ -81,9 +83,6 @@ class ConfessionsActivity : AppCompatActivity() {
 
 
 
-
-
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindConfessions(confessions: ConfessionModel) {
@@ -91,7 +90,7 @@ class ConfessionsActivity : AppCompatActivity() {
 
                 itemView.confessionSimpleAuthorTv.text = confessions.op.name
                 itemView.confessionSimpleContentTv.text = confessions.text
-                itemView.confessionSimpleDateTv.text = confessions.date
+                itemView.confessionSimpleDateTv.text = SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY).format(confessions.date)
                 itemView.confessionsCommentsNumberTv.text = confessions.comments.size.toString()
                 itemView.confessionsLikesNumberTv.text = confessions.likes.toString()
 

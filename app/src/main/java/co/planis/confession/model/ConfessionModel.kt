@@ -5,6 +5,6 @@ import java.util.*
 /**
  * Created by janpluta on 28.09.16.
  */
-data class ConfessionModel(val id : Int = 1, val text: String = "", val likes : Int = 0, val comments : List<CommentModel> = ArrayList<CommentModel>(), val op : UserModel = UserModel(), val date : String = "") {
+data class ConfessionModel(val id : Int = 1, val text: String = "", val likes : Int = 0, val comments : List<CommentModel> = ArrayList<CommentModel>(), val op : UserModel = UserModel(), val date : Date = Date()) {
 
 }
