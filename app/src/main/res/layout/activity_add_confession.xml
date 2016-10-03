@@ -23,19 +23,32 @@
         android:padding="16dp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="@color/white"
-        android:hint="Rozpocznij swoje wyznanie..."
+        android:hint="Rozpocznij swoje wyznanie..."/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addConfessionSendInstructionTv"
+        android:text="Potrząśnij telefonem, żeby wysłać wiadomość"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="16dp"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/colorPrimary"
         />
 
+
+</RelativeLayout>
+
+<!--
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addConfessionPublishFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_publish"
         android:layout_margin="16dp"
-        android:id="@+id/addConfessionPublishFab"
-        />
-
-
-</RelativeLayout>
+        android:src="@drawable/ic_publish" />-->

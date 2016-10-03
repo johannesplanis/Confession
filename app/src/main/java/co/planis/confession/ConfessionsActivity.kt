@@ -4,19 +4,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.OnItemTouchListener
-import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import co.planis.confession.model.CommentModel
 import co.planis.confession.model.ConfessionModel
-import co.planis.confession.model.UserModel
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_confessions.*
 import kotlinx.android.synthetic.main.row_confessions.view.*
-import java.util.*
 import org.jetbrains.anko.startActivity
 
 class ConfessionsActivity : AppCompatActivity() {
