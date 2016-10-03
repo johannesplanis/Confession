@@ -38,7 +38,6 @@ class AddConfessionActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Dodaj wyznanie"
 
-        //addConfessionPublishFab.setOnClickListener { publishConfession() }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
