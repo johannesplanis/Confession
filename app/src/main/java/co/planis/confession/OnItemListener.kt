@@ -5,7 +5,7 @@ import co.planis.confession.model.ConfessionModel
 /**
  * Created by janpluta on 03.10.16.
  */
-interface OnItemListener {
-    fun onItemClick(model :ConfessionModel)
-    fun onLikeClick(model: ConfessionModel)
+abstract class OnItemListener {
+    abstract fun onItemClick(model :ConfessionModel)
+    abstract fun onLikeClick(model: ConfessionModel)
 }
