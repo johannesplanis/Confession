@@ -18,6 +18,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import co.planis.confession.OnItemListener
 import co.planis.confession.model.ConfessionModel
 import com.google.firebase.database.DataSnapshot
@@ -34,7 +35,7 @@ import java.util.*
 class MyFirebaseRecyclerAdapter
 
 
-(protected var mModelLayout: Int, ref: Query,var listener : OnItemListener?) : RecyclerView.Adapter<MyFirebaseRecyclerAdapter.ViewHolder>() {
+(protected var mModelLayout: Int, ref: Query,val itemClick : (ConfessionModel) -> Unit, val likeClick:(ConfessionModel) ->Unit) : RecyclerView.Adapter<MyFirebaseRecyclerAdapter.ViewHolder>() {
     internal var mSnapshots: FirebaseArray
 
     init {
@@ -82,7 +83,7 @@ class MyFirebaseRecyclerAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(mModelLayout, parent, false) as ViewGroup
         try {
-            return ViewHolder(view,listener)
+            return ViewHolder(view,itemClick,likeClick)
         } catch (e: NoSuchMethodException) {
             throw RuntimeException(e)
         } catch (e: InvocationTargetException) {
@@ -100,27 +101,14 @@ class MyFirebaseRecyclerAdapter
         populateViewHolder(viewHolder, model)
     }
 
-    /**
-     * Each time the data at the given Firebase location changes, this method will be called for each item that needs
-     * to be displayed. The first two arguments correspond to the mLayout and mModelClass given to the constructor of
-     * this class. The third argument is the item's position in the list.
-     *
-     *
-     * Your implementation should populate the view using the data contained in the model.
 
-     * @param viewHolder The view to populate
-     * *
-     * @param model      The object containing the data used to populate the view
-     * *
-     * @param position  The position in the list of the view being populated
-     */
     protected fun populateViewHolder(viewHolder: ViewHolder, model: ConfessionModel){
         viewHolder.bindConfessions(model)
     }
 
 
 
-    class ViewHolder(view: View, var listener: OnItemListener?) : RecyclerView.ViewHolder(view), AnkoLogger {
+    class ViewHolder(view: View, val itemClick : (ConfessionModel) -> Unit, val likeClick: (ConfessionModel) -> Unit) : RecyclerView.ViewHolder(view), AnkoLogger {
 
         fun bindConfessions(confessions: ConfessionModel) {
 
@@ -129,9 +117,8 @@ class MyFirebaseRecyclerAdapter
                 itemView.confessionSimpleDateTv.text = SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY).format(confessions.date)
                 itemView.confessionsCommentsNumberTv.text = confessions.comments.size.toString()
                 itemView.confessionsLikesNumberTv.text = confessions.likes.toString()
-                itemView.setOnClickListener { debug { "item click" } }
-                itemView.confessionsContainerRl.setOnClickListener { debug { "container click"} }
-                itemView.confessionsLikesLabelTv.setOnClickListener { debug { "like click" } }
+                itemView.confessionsContainerRl.setOnClickListener { itemClick.invoke(confessions) }
+                itemView.confessionsLikesLabelTv.setOnClickListener { likeClick.invoke(confessions) }
 
         }
     }

@@ -3,6 +3,7 @@ package co.planis.confession
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.widget.Toast
 import co.planis.confession.model.ConfessionModel
 import com.firebase.ui.database.MyFirebaseRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
@@ -27,6 +28,7 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confessions)
+
 
 
         confessionListRv.layoutManager = LinearLayoutManager(this)
@@ -54,7 +56,11 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
         confessionsReference = databaseReference?.child(CONFESSIONS)
 
 
-        val confessionsAdapter = MyFirebaseRecyclerAdapter(R.layout.row_confessions,confessionsReference as Query,itemListener)
+        val confessionsAdapter = MyFirebaseRecyclerAdapter(R.layout.row_confessions,confessionsReference as Query,{
+            Toast.makeText(this,"item clicked: "+it.toString(),Toast.LENGTH_LONG).show()
+        },{
+            Toast.makeText(this,"like clicked: "+it.likes,Toast.LENGTH_LONG).show()
+        })
 
         confessionListRv.adapter = confessionsAdapter
 
