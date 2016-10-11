@@ -5,6 +5,14 @@ import java.util.*
 /**
  * Created by janpluta on 28.09.16.
  */
-data class ConfessionModel(val id : Int = 1, val text: String = "", val likes : Int = 0, val comments : List<CommentModel> = ArrayList<CommentModel>(), val op : UserModel = UserModel(), val date : Date = Date()) {
+data class ConfessionModel(val id : Int = 1, val text: String = "", var likes : Int = 0, var comments : List<CommentModel> = ArrayList<CommentModel>(), val op : UserModel = UserModel(), val date : Date = Date()) {
 
+
+    fun incrementLikes(){
+        likes = likes.inc()
+    }
+
+    fun decrementLikes(){
+        likes  = likes.dec()
+    }
 }

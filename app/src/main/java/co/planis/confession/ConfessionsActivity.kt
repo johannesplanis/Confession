@@ -6,64 +6,64 @@ import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import co.planis.confession.model.ConfessionModel
 import com.firebase.ui.database.MyFirebaseRecyclerAdapter
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_confessions.*
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import org.jetbrains.anko.startActivity
 
 class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
 
-
-    private var itemListener : OnItemListener? = null
-
-
     private var databaseReference : DatabaseReference? = null
     private var confessionsReference : DatabaseReference? = null
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_confessions)
 
-
-
-        confessionListRv.layoutManager = LinearLayoutManager(this)
-
-        itemListener = object : OnItemListener() {
-            override fun onItemClick(model: ConfessionModel) {
-                debug { "Item click: "+model.toString() }
-            }
-
-            override fun onLikeClick(model: ConfessionModel) {
-                debug { "Like click: "+model.toString() }
-            }
-
-        }
         initFirebase()
+        initAdapter()
 
         confessionListAddFab.setOnClickListener { startActivity<AddConfessionActivity>() }
     }
-
 
 
     private fun initFirebase() {
 
         databaseReference = FirebaseDatabase.getInstance().reference
         confessionsReference = databaseReference?.child(CONFESSIONS)
+    }
+
+    private fun initAdapter() {
+
+        val confessionsAdapter = MyFirebaseRecyclerAdapter(R.layout.row_confessions, confessionsReference as Query, {
 
 
-        val confessionsAdapter = MyFirebaseRecyclerAdapter(R.layout.row_confessions,confessionsReference as Query,{
-            Toast.makeText(this,"item clicked: "+it.toString(),Toast.LENGTH_LONG).show()
-        },{
-            Toast.makeText(this,"like clicked: "+it.likes,Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "item clicked: " + it.toString(), Toast.LENGTH_LONG).show()
+        }, {
+            it.ref.runTransaction(object : Transaction.Handler{
+                override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
+
+
+
+                }
+
+                override fun doTransaction(p0: MutableData): Transaction.Result {
+
+                    val confession = p0.getValue(ConfessionModel::class.java);
+
+                    confession.incrementLikes()
+
+
+                    p0.value = confession
+
+                    return Transaction.success(p0)
+                }
+            })
+            Toast.makeText(this, "like clicked: " + it.toString(), Toast.LENGTH_LONG).show()
         })
 
+        confessionListRv.layoutManager = LinearLayoutManager(this)
         confessionListRv.adapter = confessionsAdapter
-
     }
 
     private fun loadData() {
@@ -87,10 +87,6 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
             }
         })
 */    }
-
-
-
-
 }
 
 

@@ -18,24 +18,16 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import co.planis.confession.OnItemListener
 import co.planis.confession.model.ConfessionModel
 import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import kotlinx.android.synthetic.main.row_confessions.view.*
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.debug
 import java.lang.reflect.InvocationTargetException
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class MyFirebaseRecyclerAdapter
-
-
-(protected var mModelLayout: Int, ref: Query,val itemClick : (ConfessionModel) -> Unit, val likeClick:(ConfessionModel) ->Unit) : RecyclerView.Adapter<MyFirebaseRecyclerAdapter.ViewHolder>() {
+class MyFirebaseRecyclerAdapter(protected var mModelLayout: Int, ref: Query, val itemClick: (DataSnapshot) -> Unit, val likeClick: (DataSnapshot) -> Unit) : RecyclerView.Adapter<MyFirebaseRecyclerAdapter.ViewHolder>() {
     internal var mSnapshots: FirebaseArray
 
     init {
@@ -52,8 +44,6 @@ class MyFirebaseRecyclerAdapter
         }
     }
 
-
-
     fun cleanup() {
         mSnapshots.cleanup()
     }
@@ -62,18 +52,10 @@ class MyFirebaseRecyclerAdapter
         return mSnapshots.count
     }
 
-    fun getItem(position: Int): ConfessionModel {
-        return parseSnapshot(mSnapshots.getItem(position))
+    fun getItem(position: Int): DataSnapshot {
+        return mSnapshots.getItem(position)
     }
 
-
-    protected fun parseSnapshot(snapshot: DataSnapshot): ConfessionModel {
-        return snapshot.getValue(ConfessionModel::class.java)
-    }
-
-    fun getRef(position: Int): DatabaseReference {
-        return mSnapshots.getItem(position).ref
-    }
 
     override fun getItemId(position: Int): Long {
         // http://stackoverflow.com/questions/5100071/whats-the-purpose-of-item-ids-in-android-listview-adapter
@@ -83,7 +65,7 @@ class MyFirebaseRecyclerAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(mModelLayout, parent, false) as ViewGroup
         try {
-            return ViewHolder(view,itemClick,likeClick)
+            return ViewHolder(view, itemClick, likeClick)
         } catch (e: NoSuchMethodException) {
             throw RuntimeException(e)
         } catch (e: InvocationTargetException) {
@@ -93,7 +75,6 @@ class MyFirebaseRecyclerAdapter
         } catch (e: IllegalAccessException) {
             throw RuntimeException(e)
         }
-
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
@@ -102,24 +83,36 @@ class MyFirebaseRecyclerAdapter
     }
 
 
-    protected fun populateViewHolder(viewHolder: ViewHolder, model: ConfessionModel){
+    protected fun populateViewHolder(viewHolder: ViewHolder, model: DataSnapshot) {
         viewHolder.bindConfessions(model)
     }
 
 
+    class ViewHolder(view: View, val itemClick: (DataSnapshot) -> Unit, val likeClick: (DataSnapshot) -> Unit) : RecyclerView.ViewHolder(view) {
 
-    class ViewHolder(view: View, val itemClick : (ConfessionModel) -> Unit, val likeClick: (ConfessionModel) -> Unit) : RecyclerView.ViewHolder(view), AnkoLogger {
+        fun parseSnapshot(snapshot: DataSnapshot): ConfessionModel {
 
-        fun bindConfessions(confessions: ConfessionModel) {
+            return snapshot.getValue(ConfessionModel::class.java)
+        }
 
-                itemView.confessionSimpleAuthorTv.text = confessions.op.name
-                itemView.confessionSimpleContentTv.text = confessions.text
-                itemView.confessionSimpleDateTv.text = SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY).format(confessions.date)
-                itemView.confessionsCommentsNumberTv.text = confessions.comments.size.toString()
-                itemView.confessionsLikesNumberTv.text = confessions.likes.toString()
-                itemView.confessionsContainerRl.setOnClickListener { itemClick.invoke(confessions) }
-                itemView.confessionsLikesLabelTv.setOnClickListener { likeClick.invoke(confessions) }
+        fun bindConfessions(confessions: DataSnapshot) {
 
+
+            with(confessions) {
+
+                itemView.confessionsContainerRl.setOnClickListener { itemClick(this) }
+                itemView.confessionsLikesLabelTv.setOnClickListener { likeClick(this) }
+            }
+
+            val parsed: ConfessionModel = parseSnapshot(confessions)
+
+            with(parsed) {
+                itemView.confessionSimpleAuthorTv.text = op.name
+                itemView.confessionSimpleContentTv.text = text
+                itemView.confessionSimpleDateTv.text = SimpleDateFormat("dd-MM-yyyy", Locale.GERMANY).format(date)
+                itemView.confessionsCommentsNumberTv.text = comments.size.toString()
+                itemView.confessionsLikesNumberTv.text = likes.toString()
+            }
         }
     }
 }
