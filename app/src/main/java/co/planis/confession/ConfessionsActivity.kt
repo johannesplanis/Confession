@@ -11,10 +11,11 @@ import kotlinx.android.synthetic.main.activity_confessions.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.startActivity
 
-class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
+class ConfessionsActivity : AppCompatActivity(), AnkoLogger {
 
-    private var databaseReference : DatabaseReference? = null
-    private var confessionsReference : DatabaseReference? = null
+    private var databaseReference: DatabaseReference? = null
+    private var confessionsReference: DatabaseReference? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +41,8 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
 
             Toast.makeText(this, "item clicked: " + it.toString(), Toast.LENGTH_LONG).show()
         }, {
-            it.ref.runTransaction(object : Transaction.Handler{
+            it.ref.runTransaction(object : Transaction.Handler {
                 override fun onComplete(p0: DatabaseError?, p1: Boolean, p2: DataSnapshot?) {
-
 
 
                 }
@@ -51,13 +51,18 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
 
                     val confession = p0.getValue(ConfessionModel::class.java);
 
-                    confession.incrementLikes()
+                    if (!hasLiked)
+                        confession.incrementLikes()
+                    else
+                        confession.decrementLikes()
 
+                    notifyLikesChanged()
 
                     p0.value = confession
-
                     return Transaction.success(p0)
                 }
+
+
             })
             Toast.makeText(this, "like clicked: " + it.toString(), Toast.LENGTH_LONG).show()
         })
@@ -66,9 +71,17 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
         confessionListRv.adapter = confessionsAdapter
     }
 
+    var hasLiked: Boolean = false
+
+    fun hasUserLiked(): Boolean {
+        return hasLiked
+    }
+
+    private fun notifyLikesChanged() {
+        hasLiked = !hasLiked
+    }
+
     private fun loadData() {
-
-
 
 
         //TODO research infix function problems
@@ -86,7 +99,8 @@ class ConfessionsActivity : AppCompatActivity(),AnkoLogger{
                 }
             }
         })
-*/    }
+*/
+    }
 }
 
 
