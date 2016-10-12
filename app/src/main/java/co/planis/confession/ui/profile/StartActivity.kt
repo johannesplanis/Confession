@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import co.planis.confession.R
+import co.planis.confession.ui.feed.ConfessionsActivity
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -21,7 +22,7 @@ class StartActivity : FragmentActivity() {
         callbackManager.onActivityResult(requestCode,resultCode,data)
     }
 
-    var callbackManager : CallbackManager = null!!
+    var callbackManager : CallbackManager = CallbackManager.Factory.create()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +30,12 @@ class StartActivity : FragmentActivity() {
         FacebookSdk.sdkInitialize(this)
 
 
-        callbackManager = CallbackManager.Factory.create()
 
         setContentView(R.layout.activity_start)
 
         login_button.registerCallback(callbackManager,object : FacebookCallback<LoginResult>{
             override fun onSuccess(result: LoginResult) {
-
+                startActivity(Intent(this@StartActivity,ConfessionsActivity::class.java))
             }
 
             override fun onCancel() {
