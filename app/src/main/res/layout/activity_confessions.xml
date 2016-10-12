@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimaryDark"
 
-    tools:context="co.planis.confession.ConfessionsActivity">
+    tools:context=".ui.feed.ConfessionsActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/confessionListRv"

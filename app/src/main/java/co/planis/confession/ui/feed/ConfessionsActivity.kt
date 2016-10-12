@@ -1,9 +1,12 @@
-package co.planis.confession
+package co.planis.confession.ui.feed
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
+import co.planis.confession.AddConfessionActivity
+import co.planis.confession.CONFESSIONS
+import co.planis.confession.R
 import co.planis.confession.model.ConfessionModel
 import com.firebase.ui.database.MyFirebaseRecyclerAdapter
 import com.google.firebase.database.*
