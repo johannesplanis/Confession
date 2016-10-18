@@ -13,6 +13,7 @@ import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_confessions.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.startActivity
+import timber.log.Timber
 
 class ConfessionsActivity : AppCompatActivity(), AnkoLogger {
 
@@ -26,7 +27,8 @@ class ConfessionsActivity : AppCompatActivity(), AnkoLogger {
 
         initFirebase()
         initAdapter()
-
+        Timber.i("Siema!")
+        Timber.d("siema świecie")
         confessionListAddFab.setOnClickListener { startActivity<AddConfessionActivity>() }
     }
 

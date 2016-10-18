@@ -13,6 +13,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
 
     packagingOptions {
@@ -60,9 +62,22 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-annotations:23.1.1'
+    }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.4.1'
+    androidTestCompile 'com.android.support.test:rules:0.4.1'
+
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
     compile "com.android.support:cardview-v7:$support_version"
@@ -73,5 +88,8 @@ dependencies {
     compile 'com.google.firebase:firebase-crash:9.4.0'
     compile 'com.facebook.android:facebook-android-sdk:4.16.1'
     compile 'com.android.support:support-v4:24.2.0'
+
+    compile 'com.jakewharton.timber:timber:4.0.1'
+
 }
 apply plugin: 'com.google.gms.google-services'
