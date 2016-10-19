@@ -28,11 +28,15 @@ import java.util.*
 
 
 class MyFirebaseRecyclerAdapter(protected var mModelLayout: Int, ref: Query, val itemClick: (DataSnapshot) -> Unit, val likeClick: (DataSnapshot) -> Unit) : RecyclerView.Adapter<MyFirebaseRecyclerAdapter.ViewHolder>() {
+
     internal var mSnapshots: FirebaseArray
+
+    companion object {
+        @JvmStatic fun parseSnapshot(snapshot: DataSnapshot): ConfessionModel = snapshot.getValue(ConfessionModel::class.java)
+    }
 
     init {
         mSnapshots = FirebaseArray(ref)
-
         mSnapshots.setOnChangedListener { type, index, oldIndex ->
             when (type) {
                 FirebaseArray.OnChangedListener.EventType.Added -> notifyItemInserted(index)
@@ -44,23 +48,12 @@ class MyFirebaseRecyclerAdapter(protected var mModelLayout: Int, ref: Query, val
         }
     }
 
-    fun cleanup() {
-        mSnapshots.cleanup()
-    }
+    override fun getItemCount(): Int = mSnapshots.count
 
-    override fun getItemCount(): Int {
-        return mSnapshots.count
-    }
+    override fun getItemId(position: Int): Long = mSnapshots.getItem(position).key.hashCode().toLong()
 
-    fun getItem(position: Int): DataSnapshot {
-        return mSnapshots.getItem(position)
-    }
+    fun getItem(position: Int): DataSnapshot = mSnapshots.getItem(position)
 
-
-    override fun getItemId(position: Int): Long {
-        // http://stackoverflow.com/questions/5100071/whats-the-purpose-of-item-ids-in-android-listview-adapter
-        return mSnapshots.getItem(position).key.hashCode().toLong()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(mModelLayout, parent, false) as ViewGroup
@@ -79,27 +72,13 @@ class MyFirebaseRecyclerAdapter(protected var mModelLayout: Int, ref: Query, val
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val model = getItem(position)
-        populateViewHolder(viewHolder, model)
-    }
-
-
-    protected fun populateViewHolder(viewHolder: ViewHolder, model: DataSnapshot) {
         viewHolder.bindConfessions(model)
     }
 
-
     class ViewHolder(view: View, val itemClick: (DataSnapshot) -> Unit, val likeClick: (DataSnapshot) -> Unit) : RecyclerView.ViewHolder(view) {
 
-        fun parseSnapshot(snapshot: DataSnapshot): ConfessionModel {
-
-            return snapshot.getValue(ConfessionModel::class.java)
-        }
-
         fun bindConfessions(confessions: DataSnapshot) {
-
-
             with(confessions) {
-
                 itemView.confessionsContainerRl.setOnClickListener { itemClick(this) }
                 itemView.confessionsLikesLabelTv.setOnClickListener { likeClick(this) }
             }

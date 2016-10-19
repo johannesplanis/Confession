@@ -22,12 +22,12 @@ class AddConfessionActivity : AppCompatActivity() {
 
     var sensorManager: SensorManager? = null
 
-    var mAccel: Float = 0.0f
-    var mAccelCurrent: Float = 0.0f
+    private var mAccel: Float = 0.0f
+    private var mAccelCurrent: Float = 0.0f
 
-    var vibrator: Vibrator? = null
+    private var vibrator: Vibrator? = null
 
-    var isSent: Boolean = false
+    private var isSent: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +56,7 @@ class AddConfessionActivity : AppCompatActivity() {
     }
 
 
-    var sensorListener: SensorEventListener = object : SensorEventListener {
+    val sensorListener: SensorEventListener = object : SensorEventListener {
         override fun onSensorChanged(event: SensorEvent) {
 
             val x = event.values[0]
@@ -75,9 +75,7 @@ class AddConfessionActivity : AppCompatActivity() {
             }
         }
 
-        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-
-        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
     }
 
 

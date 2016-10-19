@@ -36,11 +36,7 @@ public class ConfessionsActivityTest {
 
         onView(withId(R.id.confessionListAddFab)).perform(click());
         onView(withId(R.id.addConfessionAuthorEt)).perform(typeText("Anonim"),closeSoftKeyboard());
-
-
         onView(withId(R.id.addConfessionPreviewEt)).perform(replaceText("Jestem aniołem"),closeSoftKeyboard());
-
-
         onView(withId(R.id.addConfessionPreviewEt)).check(matches(isDisplayed()));
     }
 }
